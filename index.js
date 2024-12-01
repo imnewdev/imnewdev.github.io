@@ -9,7 +9,7 @@ function show(id) {
 function showHomePage() {
   hide("skills");
   hide("projects");
-  hide("projects");
+  hide("languages");
   show("home");
 }
 
