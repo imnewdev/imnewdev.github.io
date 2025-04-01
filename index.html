@@ -90,6 +90,74 @@
               Stars My main is Squeak.</strong
             >
           </p>
+
+          <h2>Orar</h2>
+          <div id="orar"></div>
+
+          <script src="https://nmatei.github.io/generators/docs/circle-slices.js"></script>
+
+          <script>
+            const options = CircleSlices.render({
+              renderTo: "#orar",
+              groupSize: 700,
+              slicesSize: 600,
+              centerSize: 200,
+              text: `
+# 🔵 Luni
+Biologie
+Engleză
+Fizică
+Română
+Sport
+
+# 🎨 Marți
+Opțional Desen
+Mate
+Fizică
+T.I.C
+Muzică
+Dirigenție
+
+# ⚡ Miercuri
+Română
+Biologie
+Mate
+Ed. Tehnologică
+Franceză
+
+#  Joi
+Opțional Engleză
+Franceză
+Mate
+Engleză
+Geografie
+Română
+
+#  Vineri
+Română
+Istorie
+Socială
+Mate
+Desen
+Sport
+`,
+              centerText: `# 🚀 Web`,
+            });
+
+            console.info("options", options);
+
+            document
+              .querySelector("#groups")
+              .addEventListener("rotate", (event) => {
+                const { angle, slice } = event.detail;
+                console.info(
+                  "rotate %o deg [ %o ]",
+                  angle,
+                  slice.innerText,
+                  slice
+                );
+              });
+          </script>
         </div>
         <div class="page" id="skills">
           <h2>Skills & Endorcements</h2>
@@ -103,7 +171,7 @@
         <div class="page" id="projects">
           <h2>Projects</h2>
           <p>These are the projects I've been working on...</p>
-          <p>-Tier Max Squeak</p>
+          <p>-Tier Max Squeak i did it</p>
           <p>-Masters</p>
         </div>
 
