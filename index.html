@@ -81,9 +81,9 @@
       <div id="main">
         <div class="page" id="home">
           <p>
-            >Hello, welcome to my site. This site is about me, but it can also
-            be about you if you follow the link in the botton of the page. Hope
-            you learn something from the course! GOOD LUCK! >
+            Hello, welcome to my site. This site is about me, but it can also be
+            about you if you follow the link in the botton of the page. Hope you
+            learn something from the course! GOOD LUCK!
           </p>
 
           <h2>Orar</h2>
@@ -94,9 +94,9 @@
           <script>
             const options = CircleSlices.render({
               renderTo: "#orar",
-              groupSize: 500,
-              slicesSize: 400,
-              centerSize: 150,
+              groupSize: 400,
+              slicesSize: 330,
+              centerSize: 120,
               text: `
 # Luni
 Biologie
@@ -117,7 +117,7 @@ Dirigenție
 Română
 Biologie
 Mate
-Ed. Tehnologică
+Tehno
 Franceză
 
 #  Joi
@@ -142,7 +142,7 @@ Sport
             console.info("options", options);
 
             document
-              .querySelector("#groups")
+              .querySelector("#orar")
               .addEventListener("rotate", (event) => {
                 const { angle, slice } = event.detail;
                 console.info(
@@ -158,7 +158,7 @@ Sport
           <h2>Skills & Endorcements</h2>
           <ul>
             <li class="wow">HTML - 4</li>
-            <li class="wow">CSS- 3</li>
+            <li class="wow">CSS - 3</li>
             <li class="wow">JavaScript - 1</li>
           </ul>
         </div>
