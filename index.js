@@ -1,3 +1,5 @@
+var activePage = "home";
+
 function hide(id) {
   document.getElementById(id).style.display = "none";
 }
