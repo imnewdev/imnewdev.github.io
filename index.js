@@ -9,7 +9,7 @@ function show(id) {
 }
 
 function showHomePage() {
-  hide("languages");
+  hide(activePage);
   show("home");
   activePage = "home";
 }
