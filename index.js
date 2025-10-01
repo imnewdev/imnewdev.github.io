@@ -46,3 +46,7 @@ projectsLink.addEventListener("click", showProjectsPage);
 
 var languagesLink = document.querySelectorAll("#top-menu-bar a")[3];
 languagesLink.addEventListener("click", showLanguagesPage);
+
+document.querySelector("#top-menu-bar").addEventListener("click", function (e) {
+  console.info("click on menu-bar", e.target.getAttribute("data-page"));
+});
