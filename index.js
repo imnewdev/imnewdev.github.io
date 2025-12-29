@@ -21,19 +21,19 @@ function showPage(id) {
   activePage = id;
 }
 
-showHomePage();
+showPage("home");
 
-var homeLink = document.querySelectorAll("#top-menu-bar a")[0];
-homeLink.addEventListener("click", showHomePage);
+// var homeLink = document.querySelectorAll("#top-menu-bar a")[0];
+// homeLink.addEventListener("click", showHomePage);
 
-var skillsLink = document.querySelectorAll("#top-menu-bar a")[1];
-skillsLink.addEventListener("click", showSkillsPage);
+// var skillsLink = document.querySelectorAll("#top-menu-bar a")[1];
+//skillsLink.addEventListener("click", showSkillsPage);
 
-var projectsLink = document.querySelectorAll("#top-menu-bar a")[2];
-projectsLink.addEventListener("click", showProjectsPage);
+// var projectsLink = document.querySelectorAll("#top-menu-bar a")[2];
+//projectsLink.addEventListener("click", showProjectsPage);
 
-var languagesLink = document.querySelectorAll("#top-menu-bar a")[3];
-languagesLink.addEventListener("click", showLanguagesPage);
+// var languagesLink = document.querySelectorAll("#top-menu-bar a")[3];
+//languagesLink.addEventListener("click", showLanguagesPage);
 
 document.querySelector("#top-menu-bar").addEventListener("click", function (e) {
   var id = e.target.dataset.page;
