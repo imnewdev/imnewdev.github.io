@@ -8,29 +8,17 @@ function show(id) {
   document.getElementById(id).style.display = "block";
 }
 
-function showHomePage() {
+function showPage(id) {
   hide(activePage);
-  show("home");
-  activePage = "home";
-}
+  document
+    .querySelector(`#top-menu-bar a[data-page="${activePage}"]`)
+    .classList.remove("active");
 
-function showSkillsPage() {
-  console.log("activePage", activePage);
-  hide(activePage);
-  show("skills");
-  activePage = "skills";
-}
-
-function showProjectsPage() {
-  hide(activePage);
-  show("projects");
-  activePage = "projects";
-}
-
-function showLanguagesPage() {
-  hide(activePage);
-  show("languages");
-  activePage = "languages";
+  document
+    .querySelector(`#top-menu-bar a[data-page="${id}"]`)
+    .classList.add("active");
+  show(id);
+  activePage = id;
 }
 
 showHomePage();
@@ -48,5 +36,9 @@ var languagesLink = document.querySelectorAll("#top-menu-bar a")[3];
 languagesLink.addEventListener("click", showLanguagesPage);
 
 document.querySelector("#top-menu-bar").addEventListener("click", function (e) {
-  console.info("click on menu-bar", e.target.getAttribute("data-page"));
+  var id = e.target.dataset.page;
+  console.info("click on menu-bar", id);
+  if (id) {
+    showPage(id);
+  }
 });
