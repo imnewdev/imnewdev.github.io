@@ -1,4 +1,4 @@
-var activePage = "home";
+var activePage = "skills";
 
 function hide(id) {
   document.getElementById(id).style.display = "none";
@@ -13,6 +13,8 @@ function showPage(id) {
   document
     .querySelector(`#top-menu-bar a[data-page="${activePage}"]`)
     .classList.remove("active");
+  show(id);
+  $('#top-menu-bar a[data-page="' + id + '"]').classList.add("active");
 
   document
     .querySelector(`#top-menu-bar a[data-page="${id}"]`)
@@ -30,3 +32,15 @@ document.querySelector("#top-menu-bar").addEventListener("click", function (e) {
     showPage(id);
   }
 });
+
+function $(selector) {
+  return document.querySelector(selector);
+}
+
+var skills = ["HTML - 2", "CSS - 2", "JavaScript - 2"];
+var skillsMapResult = skills.map(function (skill) {
+  console.info("inside map", skill);
+  return "<li>" + skill + "</li>";
+});
+console.warn("result", skillsMapResult);
+$("#skills ul").innerHTML = skillsMapResult.join("");
