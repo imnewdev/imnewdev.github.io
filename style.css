@@ -49,11 +49,17 @@ body {
 #side-menu > section {
   margin-bottom: 10px;
   padding: 10px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.15),
+    0 2px 3px rgba(0, 0, 0, 0.2);
   border-radius: 2px;
 }
 #side-menu > section h2 {
   margin: 0 0 10px 0;
+}
+
+#skills li span {
+  color: #057988;
 }
 
 #main {
@@ -76,7 +82,9 @@ footer a {
   padding: 24px;
   background: #fff;
   margin-bottom: 10px;
-  box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 2px 3px rgb(0 0 0 / 20%);
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 15%),
+    0 2px 3px rgb(0 0 0 / 20%);
   border-radius: 2px;
 }
 .page h2 {

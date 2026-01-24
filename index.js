@@ -23,7 +23,7 @@ function showPage(id) {
   activePage = id;
 }
 
-showPage("home");
+showPage(activePage);
 
 document.querySelector("#top-menu-bar").addEventListener("click", function (e) {
   var id = e.target.dataset.page;
@@ -37,10 +37,14 @@ function $(selector) {
   return document.querySelector(selector);
 }
 
-var skills = ["HTML - 2", "CSS - 2", "JavaScript - 2"];
+var skills = [
+  { name: "HTML", endorcements: 3, favorite: true },
+  { name: "CSS", endorcements: 2 },
+  { name: "JavaScript", endorcements: 4, favorite: true },
+];
 var skillsMapResult = skills.map(function (skill) {
-  console.info("inside map", skill);
-  return "<li>" + skill + "</li>";
+  var cls = skill.favorite ? "favorite" : "";
+  console.info("inside map %o", cls, skill);
+  return `<li class ="${cls}">${skill.name} <span>- ${skill.endorcements}</span></li>`;
 });
-console.warn("result", skillsMapResult);
 $("#skills ul").innerHTML = skillsMapResult.join("");
