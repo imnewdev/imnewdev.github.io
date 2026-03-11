@@ -122,15 +122,18 @@ var SnakeGame = (function () {
     );
     if (mobileBtns && mobileBtns.length) {
       mobileBtns.forEach(function (btn) {
-        btn.addEventListener(
-          "touchstart",
-          function (ev) {
-            ev.preventDefault();
-            handleMobileDir(btn.dataset.dir);
-          },
-          { passive: false },
-        );
-        btn.addEventListener("mousedown", function (ev) {
+        // pointerdown covers mouse, touch and pen in modern browsers
+        btn.addEventListener('pointerdown', function (ev) {
+          ev.preventDefault();
+          handleMobileDir(btn.dataset.dir);
+        });
+        // some older browsers/devices may not fire pointer events reliably, add click as fallback
+        btn.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          handleMobileDir(btn.dataset.dir);
+        });
+        // also keep mousedown as legacy desktop support
+        btn.addEventListener('mousedown', function (ev) {
           ev.preventDefault();
           handleMobileDir(btn.dataset.dir);
         });
