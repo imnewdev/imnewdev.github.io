@@ -117,14 +117,20 @@ var SnakeGame = (function () {
         stop();
       });
     // wire mobile directional buttons (if present)
-    var mobileBtns = document.querySelectorAll('#snake-mobile-controls .mobile-dir');
+    var mobileBtns = document.querySelectorAll(
+      "#snake-mobile-controls .mobile-dir",
+    );
     if (mobileBtns && mobileBtns.length) {
       mobileBtns.forEach(function (btn) {
-        btn.addEventListener('touchstart', function (ev) {
-          ev.preventDefault();
-          handleMobileDir(btn.dataset.dir);
-        }, { passive: false });
-        btn.addEventListener('mousedown', function (ev) {
+        btn.addEventListener(
+          "touchstart",
+          function (ev) {
+            ev.preventDefault();
+            handleMobileDir(btn.dataset.dir);
+          },
+          { passive: false },
+        );
+        btn.addEventListener("mousedown", function (ev) {
           ev.preventDefault();
           handleMobileDir(btn.dataset.dir);
         });
@@ -133,34 +139,51 @@ var SnakeGame = (function () {
 
     // touch / swipe support on canvas
     var touchStart = null;
-    canvas.addEventListener('touchstart', function (ev) {
-      if (!ev.touches || ev.touches.length === 0) return;
-      var t = ev.touches[0];
-      touchStart = { x: t.clientX, y: t.clientY, t: Date.now() };
-    }, { passive: true });
-    canvas.addEventListener('touchmove', function (ev) {
-      // prevent page scroll while interacting with game
-      if (ev.cancelable) ev.preventDefault();
-    }, { passive: false });
-    canvas.addEventListener('touchend', function (ev) {
-      if (!touchStart) return;
-      var t = (ev.changedTouches && ev.changedTouches[0]) || null;
-      if (!t) { touchStart = null; return; }
-      var dx = t.clientX - touchStart.x;
-      var dy = t.clientY - touchStart.y;
-      var adx = Math.abs(dx);
-      var ady = Math.abs(dy);
-      var threshold = Math.max(16, Math.min(40, Math.floor(cellSize * 0.15)));
-      if (Math.max(adx, ady) > threshold) {
-        if (adx > ady) {
-          // horizontal
-          if (dx > 0) handleMobileDir('right'); else handleMobileDir('left');
-        } else {
-          if (dy > 0) handleMobileDir('down'); else handleMobileDir('up');
+    canvas.addEventListener(
+      "touchstart",
+      function (ev) {
+        if (!ev.touches || ev.touches.length === 0) return;
+        var t = ev.touches[0];
+        touchStart = { x: t.clientX, y: t.clientY, t: Date.now() };
+      },
+      { passive: true },
+    );
+    canvas.addEventListener(
+      "touchmove",
+      function (ev) {
+        // prevent page scroll while interacting with game
+        if (ev.cancelable) ev.preventDefault();
+      },
+      { passive: false },
+    );
+    canvas.addEventListener(
+      "touchend",
+      function (ev) {
+        if (!touchStart) return;
+        var t = (ev.changedTouches && ev.changedTouches[0]) || null;
+        if (!t) {
+          touchStart = null;
+          return;
         }
-      }
-      touchStart = null;
-    }, { passive: true });
+        var dx = t.clientX - touchStart.x;
+        var dy = t.clientY - touchStart.y;
+        var adx = Math.abs(dx);
+        var ady = Math.abs(dy);
+        var threshold = Math.max(16, Math.min(40, Math.floor(cellSize * 0.15)));
+        if (Math.max(adx, ady) > threshold) {
+          if (adx > ady) {
+            // horizontal
+            if (dx > 0) handleMobileDir("right");
+            else handleMobileDir("left");
+          } else {
+            if (dy > 0) handleMobileDir("down");
+            else handleMobileDir("up");
+          }
+        }
+        touchStart = null;
+      },
+      { passive: true },
+    );
     // initial state
     reset();
   }
@@ -340,13 +363,33 @@ var SnakeGame = (function () {
             rightEye = { x: ex + offset * 0.45, y: ey + offset * 0.5 };
           }
           // white eye + pupil
-          ctx.fillStyle = '#ffffff';
-          ctx.beginPath(); ctx.arc(leftEye.x, leftEye.y, eyeRadius, 0, Math.PI * 2); ctx.fill();
-          ctx.beginPath(); ctx.arc(rightEye.x, rightEye.y, eyeRadius, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(leftEye.x, leftEye.y, eyeRadius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(rightEye.x, rightEye.y, eyeRadius, 0, Math.PI * 2);
+          ctx.fill();
           // pupils
-          ctx.fillStyle = '#000000';
-          ctx.beginPath(); ctx.arc(leftEye.x + (dir.x * 0.12 || 0), leftEye.y + (dir.y * 0.12 || 0), Math.max(1, Math.floor(eyeRadius * 0.5)), 0, Math.PI * 2); ctx.fill();
-          ctx.beginPath(); ctx.arc(rightEye.x + (dir.x * 0.12 || 0), rightEye.y + (dir.y * 0.12 || 0), Math.max(1, Math.floor(eyeRadius * 0.5)), 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#000000";
+          ctx.beginPath();
+          ctx.arc(
+            leftEye.x + (dir.x * 0.12 || 0),
+            leftEye.y + (dir.y * 0.12 || 0),
+            Math.max(1, Math.floor(eyeRadius * 0.5)),
+            0,
+            Math.PI * 2,
+          );
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(
+            rightEye.x + (dir.x * 0.12 || 0),
+            rightEye.y + (dir.y * 0.12 || 0),
+            Math.max(1, Math.floor(eyeRadius * 0.5)),
+            0,
+            Math.PI * 2,
+          );
+          ctx.fill();
         } catch (e) {
           /* ignore drawing errors */
         }
