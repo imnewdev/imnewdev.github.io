@@ -129,11 +129,15 @@ var SnakeGame = (function () {
           handleMobileDir(btn.dataset.dir);
         });
         // touchstart fallback for older iOS Safari
-        btn.addEventListener("touchstart", function (ev) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          handleMobileDir(btn.dataset.dir);
-        }, { passive: false });
+        btn.addEventListener(
+          "touchstart",
+          function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            handleMobileDir(btn.dataset.dir);
+          },
+          { passive: false },
+        );
         // click as a final fallback
         btn.addEventListener("click", function (ev) {
           ev.preventDefault();
