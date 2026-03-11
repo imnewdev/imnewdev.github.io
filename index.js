@@ -338,8 +338,21 @@ var SnakeGame = (function () {
 })();
 
 // wire controls if present on load
-document.addEventListener("DOMContentLoaded", function () {
-  if (document.getElementById("snake-canvas")) {
-    SnakeGame.init();
+// Ensure SnakeGame.init() runs whether the script loads before or after DOMContentLoaded.
+function _initSnakeIfPresent() {
+  try {
+    if (document.getElementById("snake-canvas")) {
+      console.info('Initializing SnakeGame');
+      SnakeGame.init();
+    }
+  } catch (e) {
+    console.warn('Snake init failed', e);
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _initSnakeIfPresent);
+} else {
+  // DOM already ready
+  _initSnakeIfPresent();
+}
