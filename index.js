@@ -11,7 +11,9 @@ function show(id) {
 function showPage(id) {
   // hide previous
   hide(activePage);
-  var prevLink = document.querySelector(`#top-menu-bar a[data-page="${activePage}"]`);
+  var prevLink = document.querySelector(
+    `#top-menu-bar a[data-page="${activePage}"]`,
+  );
   if (prevLink) prevLink.classList.remove("active");
 
   // show new
@@ -105,13 +107,15 @@ var SnakeGame = (function () {
     // wire buttons
     var startBtn = document.getElementById("start-snake-btn");
     var stopBtn = document.getElementById("stop-snake-btn");
-    if (startBtn) startBtn.addEventListener("click", function () {
-      reset();
-      start();
-    });
-    if (stopBtn) stopBtn.addEventListener("click", function () {
-      stop();
-    });
+    if (startBtn)
+      startBtn.addEventListener("click", function () {
+        reset();
+        start();
+      });
+    if (stopBtn)
+      stopBtn.addEventListener("click", function () {
+        stop();
+      });
     // initial state
     reset();
   }
@@ -160,7 +164,11 @@ var SnakeGame = (function () {
     head.y = (head.y + grid) % grid;
 
     // collision with self
-    if (snake.some(function (s) { return s.x === head.x && s.y === head.y; })) {
+    if (
+      snake.some(function (s) {
+        return s.x === head.x && s.y === head.y;
+      })
+    ) {
       stop(true);
       return;
     }
@@ -200,7 +208,7 @@ var SnakeGame = (function () {
 
     // draw grid lines
     ctx.save();
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.strokeStyle = "rgba(255,255,255,0.06)";
     ctx.lineWidth = 1;
     for (var gx = 1; gx < grid; gx++) {
       var px = gx * cellSize + 0.5; // 0.5 for crisp subpixel lines
@@ -229,9 +237,15 @@ var SnakeGame = (function () {
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.fill();
       // highlight
-      ctx.fillStyle = 'rgba(255,255,255,0.25)';
+      ctx.fillStyle = "rgba(255,255,255,0.25)";
       ctx.beginPath();
-      ctx.arc(cx - radius * 0.35, cy - radius * 0.45, radius * 0.28, 0, Math.PI * 2);
+      ctx.arc(
+        cx - radius * 0.35,
+        cy - radius * 0.45,
+        radius * 0.28,
+        0,
+        Math.PI * 2,
+      );
       ctx.fill();
       ctx.restore();
     }
@@ -249,8 +263,14 @@ var SnakeGame = (function () {
       roundRectFill(x + pad, y + pad, w, h, radius);
       // small inner shine for head
       if (i === 0) {
-        ctx.fillStyle = 'rgba(255,255,255,0.14)';
-        roundRectFill(x + pad + 1, y + pad + 1, w - 2, h - 2, Math.max(1, radius - 1));
+        ctx.fillStyle = "rgba(255,255,255,0.14)";
+        roundRectFill(
+          x + pad + 1,
+          y + pad + 1,
+          w - 2,
+          h - 2,
+          Math.max(1, radius - 1),
+        );
       }
     }
   }
@@ -311,7 +331,9 @@ var SnakeGame = (function () {
     start: start,
     stop: stop,
     reset: reset,
-    isRunning: function () { return running; }
+    isRunning: function () {
+      return running;
+    },
   };
 })();
 
