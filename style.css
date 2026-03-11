@@ -206,3 +206,39 @@ footer a {
   color: #666;
   font-size: 0.9em;
 }
+
+/* Mobile controls for snake (visible on small screens) */
+#snake-mobile-controls {
+  display: none; /* default hidden on desktop */
+  margin-top: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+#snake-mobile-controls .mobile-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.mobile-dir {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 0;
+  background: #39d13b;
+  color: #003200;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.mobile-dir:active { transform: scale(0.96); }
+
+@media (max-width: 800px) {
+  #snake-canvas { width: 320px; height: 320px; }
+  #snake-mobile-controls { display: block; }
+}
+
+@media (max-width: 420px) {
+  #snake-canvas { width: 260px; height: 260px; }
+  .mobile-dir { width: 46px; height: 46px; font-size: 1rem; }
+}
