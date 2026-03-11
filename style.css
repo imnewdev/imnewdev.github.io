@@ -228,10 +228,13 @@ footer a {
   align-items: center;
 }
 #snake-mobile-controls .mobile-row {
-  display: flex;
-  justify-content: center;
+  /* arrange the three buttons like keyboard arrows: left - down - right */
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
   gap: 12px;
   margin-top: 8px;
+  justify-content: center;
+  align-items: center;
 }
 .mobile-dir {
   width: 54px;
@@ -253,7 +256,7 @@ footer a {
     height: 320px;
   }
   #snake-mobile-controls {
-    display: block;
+    display: flex;
   }
 }
 
@@ -263,8 +266,12 @@ footer a {
     height: 260px;
   }
   .mobile-dir {
-    width: 46px;
-    height: 46px;
+    width: 52px;
+    height: 52px;
     font-size: 1rem;
+  }
+  #snake-mobile-controls .mobile-row {
+    grid-template-columns: 48px 48px 48px;
+    gap: 8px;
   }
 }
