@@ -125,16 +125,25 @@ var SnakeGame = (function () {
         // pointerdown covers mouse, touch and pen in modern browsers
         btn.addEventListener("pointerdown", function (ev) {
           ev.preventDefault();
+          ev.stopPropagation();
           handleMobileDir(btn.dataset.dir);
         });
-        // some older browsers/devices may not fire pointer events reliably, add click as fallback
+        // touchstart fallback for older iOS Safari
+        btn.addEventListener("touchstart", function (ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          handleMobileDir(btn.dataset.dir);
+        }, { passive: false });
+        // click as a final fallback
         btn.addEventListener("click", function (ev) {
           ev.preventDefault();
+          ev.stopPropagation();
           handleMobileDir(btn.dataset.dir);
         });
         // also keep mousedown as legacy desktop support
         btn.addEventListener("mousedown", function (ev) {
           ev.preventDefault();
+          ev.stopPropagation();
           handleMobileDir(btn.dataset.dir);
         });
       });
