@@ -137,53 +137,8 @@ var SnakeGame = (function () {
       });
     }
 
-    // touch / swipe support on canvas
-    var touchStart = null;
-    canvas.addEventListener(
-      "touchstart",
-      function (ev) {
-        if (!ev.touches || ev.touches.length === 0) return;
-        var t = ev.touches[0];
-        touchStart = { x: t.clientX, y: t.clientY, t: Date.now() };
-      },
-      { passive: true },
-    );
-    canvas.addEventListener(
-      "touchmove",
-      function (ev) {
-        // prevent page scroll while interacting with game
-        if (ev.cancelable) ev.preventDefault();
-      },
-      { passive: false },
-    );
-    canvas.addEventListener(
-      "touchend",
-      function (ev) {
-        if (!touchStart) return;
-        var t = (ev.changedTouches && ev.changedTouches[0]) || null;
-        if (!t) {
-          touchStart = null;
-          return;
-        }
-        var dx = t.clientX - touchStart.x;
-        var dy = t.clientY - touchStart.y;
-        var adx = Math.abs(dx);
-        var ady = Math.abs(dy);
-        var threshold = Math.max(16, Math.min(40, Math.floor(cellSize * 0.15)));
-        if (Math.max(adx, ady) > threshold) {
-          if (adx > ady) {
-            // horizontal
-            if (dx > 0) handleMobileDir("right");
-            else handleMobileDir("left");
-          } else {
-            if (dy > 0) handleMobileDir("down");
-            else handleMobileDir("up");
-          }
-        }
-        touchStart = null;
-      },
-      { passive: true },
-    );
+    // NOTE: swipe/touch handlers removed so mobile users control the snake via the
+    // on-screen directional buttons only. This avoids accidental page scrolling on many phones.
     // initial state
     reset();
   }

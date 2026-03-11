@@ -180,6 +180,13 @@ footer a {
   overflow: hidden;
 }
 
+/* disable default touch-based scrolling when interacting with the canvas */
+#snake-canvas {
+  touch-action: none;
+  -ms-touch-action: none;
+  -webkit-user-drag: none;
+}
+
 /* Orar (schedule) day label to the right */
 #orar-wrap {
   display: flex;
