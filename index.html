@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -89,10 +89,7 @@
           </p>
 
           <h2>Orar</h2>
-          <div id="orar-wrap">
-            <div id="orar"></div>
-            <div id="orar-day" aria-live="polite">LUNI</div>
-          </div>
+          <div id="orar"></div>
 
           <script src="https://nmatei.github.io/generators/docs/circle-slices.js"></script>
 
@@ -154,208 +151,13 @@ Muzica
               .querySelector("#orar")
               .addEventListener("rotate", (event) => {
                 const { angle, slice } = event.detail;
-                // try to use slice info (if provided) to update the right-side label
-                var dayEl = document.getElementById('orar-day');
-                var label = null;
-                if (slice) {
-                  if (typeof slice === 'string') label = slice;
-                  else if (slice.title) label = slice.title;
-                  else if (slice.label) label = slice.label;
-                  else if (slice.name) label = slice.name;
-                  else if (slice.text) label = slice.text;
-                }
-                if (label && dayEl) {
-                  dayEl.textContent = label.toString().toUpperCase();
-                }
               });
-
-            // set initial weekday label to current Romanian day (uppercase)
-            (function setInitialOrarDay() {
-              var names = ['DUMINICĂ','LUNI','MARȚI','MIERCURI','JOI','VINERI','SÂMBĂTĂ'];
-              var d = new Date();
-              var n = d.getDay(); // 0 (Sunday) - 6 (Saturday)
-              var el = document.getElementById('orar-day');
-              if (el) el.textContent = (names[n] || '').toUpperCase();
-            })();
-
-            // attempt to programmatically rotate the CircleSlices widget so the current day
-            // appears at the right. This enhanced routine uses more heuristics:
-            // 1) search for text nodes and click parent slice elements up the tree;
-            // 2) try additional widget API names and setters;
-            // 3) as a last resort, try rotating a transformable container element.
-            (function tryAutoRotate() {
-              var names = ['DUMINICĂ','LUNI','MARȚI','MIERCURI','JOI','VINERI','SÂMBĂTĂ'];
-              var d = new Date();
-              var label = (names[d.getDay()] || '').toUpperCase();
-              if (!label) return;
-
-              var root = document.getElementById('orar');
-              if (!root) return;
-
-              function isClickable(el) {
-                if (!el) return false;
-                var tag = (el.tagName || '').toLowerCase();
-                if (el.getAttribute && el.getAttribute('onclick')) return true;
-                if (el.hasAttribute && el.hasAttribute('role') && /button|link/i.test(el.getAttribute('role'))) return true;
-                if (el.tabIndex && el.tabIndex >= 0) return true;
-                var cls = (el.className || '') + '';
-                if (/slice|segment|click|wheel|item|slice-item/i.test(cls)) return true;
-                if (/g|path|circle|rect|a|button|div|span/.test(tag)) return true;
-                return false;
-              }
-
-              function dispatchClicks(target) {
-                try {
-                  ['pointerdown','pointerup','mousedown','mouseup','click'].forEach(function (type) {
-                    target.dispatchEvent(new Event(type, { bubbles: true, cancelable: true }));
-                  });
-                } catch (e) {
-                  try { target.click(); } catch (err) { /* ignore */ }
-                }
-              }
-
-              function tryClickMatch() {
-                // find text nodes containing the label
-                var nodes = Array.from(root.querySelectorAll('*')).filter(function (el) {
-                  try { return el.textContent && el.textContent.trim().toUpperCase().indexOf(label) !== -1; } catch (e) { return false; }
-                });
-                for (var i = 0; i < nodes.length; i++) {
-                  var el = nodes[i];
-                  // try clicking the node, then ascend to find a clickable parent
-                  console.info('Auto-rotate: found candidate text node', el);
-                  if (isClickable(el)) {
-                    console.info('Auto-rotate: dispatching clicks on node', el);
-                    dispatchClicks(el);
-                    return true;
-                  }
-                  var parent = el.parentElement;
-                  var hops = 0;
-                  while (parent && hops < 6) {
-                    if (isClickable(parent)) {
-                      console.info('Auto-rotate: dispatching clicks on parent', parent);
-                      dispatchClicks(parent);
-                      return true;
-                    }
-                    parent = parent.parentElement;
-                    hops++;
-                  }
-                }
-
-                return false;
-              }
-
-              function tryWidgetApi() {
-                if (!options) return false;
-                var tried = false;
-                var apiFns = ['rotateTo','rotateToSlice','rotateToIndex','goTo','setActive','selectSlice','animateTo','setIndex','setActiveIndex'];
-                // try to find a slices array on options
-                var slices = options.slices || options._slices || options.__slices || null;
-                var targetIndex = -1;
-                if (slices && Array.isArray(slices)) {
-                  targetIndex = slices.findIndex(function (s) {
-                    var txt = (s && (s.title || s.label || s.name || s.text || s)) + '';
-                    return txt && txt.toUpperCase().indexOf(label) !== -1;
-                  });
-                }
-
-                // try setter-like properties too
-                var propNames = ['active','activeIndex','index','selectedIndex'];
-                for (var p = 0; p < propNames.length; p++) {
-                  var pn = propNames[p];
-                  if (typeof options[pn] !== 'undefined' && targetIndex >= 0) {
-                    try {
-                      options[pn] = targetIndex;
-                      if (typeof options.update === 'function') options.update();
-                      if (typeof options.render === 'function') options.render();
-                      if (typeof options.refresh === 'function') options.refresh();
-                      console.info('Auto-rotate: set options.' + pn + ' =', targetIndex);
-                      tried = true;
-                    } catch (e) { console.warn('Auto-rotate: setting options.' + pn + ' failed', e); }
-                  }
-                }
-
-                for (var i = 0; i < apiFns.length; i++) {
-                  var fn = apiFns[i];
-                  if (typeof options[fn] === 'function') {
-                    try {
-                      if (targetIndex >= 0) {
-                        console.info('Auto-rotate: calling options.' + fn + ' with index', targetIndex);
-                        options[fn](targetIndex);
-                      } else {
-                        console.info('Auto-rotate: calling options.' + fn + ' with label', label);
-                        options[fn](label);
-                      }
-                      tried = true;
-                      break;
-                    } catch (e) {
-                      console.warn('Auto-rotate: options.' + fn + ' threw', e);
-                    }
-                  }
-                }
-                return tried;
-              }
-
-              function tryTransformFallback() {
-                if (!options || !options.slices || !Array.isArray(options.slices)) return false;
-                var slices = options.slices;
-                var idx = slices.findIndex(function (s) {
-                  var txt = (s && (s.title || s.label || s.name || s.text || s)) + '';
-                  return txt && txt.toUpperCase().indexOf(label) !== -1;
-                });
-                if (idx < 0) return false;
-
-                // find a transformable element inside #orar (svg <g> or container)
-                var candidates = Array.from(root.querySelectorAll('g,svg,div,section')).filter(function (el) { return el; });
-                if (!candidates.length) return false;
-
-                var total = slices.length;
-                var anglePer = 360 / total;
-                // compute angle so that the slice center lands at 0 degrees (right)
-                var angle = -idx * anglePer;
-
-                // try to apply transform to the first candidate that accepts it
-                var bbox = root.getBoundingClientRect();
-                var cx = bbox.width / 2;
-                var cy = bbox.height / 2;
-                for (var i = 0; i < candidates.length; i++) {
-                  var el = candidates[i];
-                  try {
-                    if (el instanceof SVGElement) {
-                      // set transform attribute on group
-                      el.setAttribute('transform', 'rotate(' + angle + ' ' + cx + ' ' + cy + ')');
-                      console.info('Auto-rotate: applied SVG transform on', el);
-                      return true;
-                    } else {
-                      el.style.transformOrigin = cx + 'px ' + cy + 'px';
-                      el.style.transition = 'transform 600ms ease';
-                      el.style.transform = 'rotate(' + angle + 'deg)';
-                      console.info('Auto-rotate: applied CSS transform on', el);
-                      return true;
-                    }
-                  } catch (e) { /* continue */ }
-                }
-                return false;
-              }
-
-              var clicked = false;
-              try { clicked = tryClickMatch(); } catch (e) { console.warn('Auto-rotate: click heuristic failed', e); }
-              if (clicked) return;
-
-              var usedApi = false;
-              try { usedApi = tryWidgetApi(); } catch (e) { console.warn('Auto-rotate: widget API attempts failed', e); }
-              if (usedApi) return;
-
-              try {
-                var didFallback = tryTransformFallback();
-                if (!didFallback) console.info('Auto-rotate: unable to auto-rotate; see console for diagnostics.');
-              } catch (e) { console.warn('Auto-rotate: transform fallback failed', e); }
-            })();
           </script>
         </div>
+
         <div class="page" id="skills">
           <h2>Skills & Endorcements</h2>
           <ul></ul>
-          </ul>
         </div>
 
         <div class="page" id="projects">
@@ -370,6 +172,7 @@ Muzica
           <p>Pe drum mergea un purceluș :</p>
           <p>Tâgâdâm-Pâș-Pâș, Tâgâdâm-Pâș-Pâș</p>
         </div>
+
         <div class="page" id="snake">
           <h2>Snake — Classic Game</h2>
           <div id="snake-wrap">
@@ -378,16 +181,32 @@ Muzica
               <button id="stop-snake-btn">Stop</button>
               <span id="snake-score">Score: 0</span>
             </div>
-            <canvas id="snake-canvas" width="400" height="400" aria-label="Snake game canvas"></canvas>
+            <canvas
+              id="snake-canvas"
+              width="400"
+              height="400"
+              aria-label="Snake game canvas"
+            ></canvas>
             <div id="snake-mobile-controls" aria-hidden="false">
-              <button class="mobile-dir" data-dir="up" aria-label="Up">↑</button>
+              <button class="mobile-dir" data-dir="up" aria-label="Up">
+                ↑
+              </button>
               <div class="mobile-row">
-                <button class="mobile-dir" data-dir="left" aria-label="Left">←</button>
-                <button class="mobile-dir" data-dir="down" aria-label="Down">↓</button>
-                <button class="mobile-dir" data-dir="right" aria-label="Right">→</button>
+                <button class="mobile-dir" data-dir="left" aria-label="Left">
+                  ←
+                </button>
+                <button class="mobile-dir" data-dir="down" aria-label="Down">
+                  ↓
+                </button>
+                <button class="mobile-dir" data-dir="right" aria-label="Right">
+                  →
+                </button>
               </div>
             </div>
-            <p class="muted">Use arrow keys or WASD to move. The game also starts when you click the Snake menu item.</p>
+            <p class="muted">
+              Use arrow keys or WASD to move. The game also starts when you
+              click the Snake menu item.
+            </p>
           </div>
         </div>
 
