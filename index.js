@@ -1,24 +1,26 @@
 var activePage = "home";
 
+function $(selector) {
+  return document.querySelector(selector);
+}
+
 function hide(id) {
-  document.getElementById(id).style.display = "none";
+  $("#" + id).style.display = "none";
 }
 
 function show(id) {
-  document.getElementById(id).style.display = "block";
+  $(`#${id}`).style.display = "block";
 }
 
 function showPage(id) {
   // hide previous
   hide(activePage);
-  var prevLink = document.querySelector(
-    `#top-menu-bar a[data-page="${activePage}"]`,
-  );
+  var prevLink = $(`#top-menu-bar a[data-page="${activePage}"]`);
   if (prevLink) prevLink.classList.remove("active");
 
   // show new
   show(id);
-  var link = document.querySelector(`#top-menu-bar a[data-page="${id}"]`);
+  var link = $(`#top-menu-bar a[data-page="${id}"]`);
   if (link) link.classList.add("active");
 
   // manage snake game lifecycle: start when entering snake page, stop otherwise
@@ -38,24 +40,25 @@ function showPage(id) {
   activePage = id;
 }
 
-showPage(activePage);
-
-document.querySelector("#top-menu-bar").addEventListener("click", function (e) {
-  var id = e.target.dataset.page;
-  console.info("click on menu-bar", id);
-  if (id) {
-    showPage(id);
-  }
-});
-
-fetch("skills.json")
-  .then(function (response) {
-    console.info("done?");
-    return response.json();
-  })
-  .then(function (skills) {
-    printSkills(skills);
+function initEvents() {
+  $("#top-menu-bar").addEventListener("click", function (e) {
+    var id = e.target.dataset.page;
+    console.info("click on menu-bar", id);
+    if (id) {
+      showPage(id);
+    }
   });
+}
+function loadSkills() {
+  fetch("skills.json")
+    .then(function (response) {
+      console.info("done?");
+      return response.json();
+    })
+    .then(function (skills) {
+      printSkills(skills);
+    });
+}
 
 function printSkills(skills) {
   skills = sortSkillsByEndorcements(skills);
@@ -81,6 +84,7 @@ function sortSkillsByName(skills) {
   });
 }
 
-function $(selector) {
-  return document.querySelector(selector);
-}
+showPage(activePage);
+initEvents();
+console.warn("showPage");
+loadSkills();
