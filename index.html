@@ -92,67 +92,7 @@
           <div id="orar"></div>
 
           <script src="https://nmatei.github.io/generators/docs/circle-slices.js"></script>
-
-          <script>
-            const options = CircleSlices.render({
-              renderTo: "#orar",
-              groupSize: 400,
-              slicesSize: 330,
-              centerSize: 120,
-              text: `
-# Luni
-Op. Romana
-Op. Engleza
-Fizica
-Latina
-Engleza
-Sport
-
-# Marți
-Chimie
-Desen
-Franceza
-Mate
-Romana
-Engleza
-
-# Miercuri
-Dirigenție
-Istorie
-Romana
-Tehno
-Mate
-Sociala
-Sport
-
-#  Joi
-Mate
-Biologie
-Chimie
-Fizica
-Romana
-Franceza
-
-#  Vineri
-Biologie
-Romana
-T.I.C
-Religie
-Mate
-Geografie
-Muzica
-`,
-              centerText: `# 🚀 7C`,
-            });
-
-            console.info("options", options);
-
-            document
-              .querySelector("#orar")
-              .addEventListener("rotate", (event) => {
-                const { angle, slice } = event.detail;
-              });
-          </script>
+          <script src="orar.js"></script>
         </div>
 
         <div class="page" id="skills">
