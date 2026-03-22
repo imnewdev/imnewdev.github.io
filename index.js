@@ -42,7 +42,7 @@ function showPage(id) {
 
 function initEvents() {
   $("#top-menu-bar").addEventListener("click", function (e) {
-    var id = e.target.dataset.page;
+    const id = e.target.dataset.page;
     console.info("click on menu-bar", id);
     if (id) {
       showPage(id);
@@ -62,8 +62,8 @@ function loadSkills() {
 
 function printSkills(skills) {
   skills = sortSkillsByEndorcements(skills);
-  var skillsMapResult = skills.map(function (skill) {
-    var cls = skill.favorite ? "favorite" : "";
+  const skillsMapResult = skills.map(function (skill) {
+    const cls = skill.favorite ? "favorite" : "";
     console.info("inside map %o", cls, skill);
     return `<li class ="${cls}">${skill.name} <span>- ${skill.endorcements}</span></li>`;
   });
