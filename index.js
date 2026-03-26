@@ -71,17 +71,11 @@ function printSkills(skills) {
 }
 
 function sortSkillsByEndorcements(skills) {
-  return skills.sort((a, b) => {
-    console.log(a, b);
-    return b.endorcements - a.endorcements;
-  });
+  return skills.sort((a, b) => b.endorcements - a.endorcements);
 }
 
 function sortSkillsByName(skills) {
-  return skills.sort((a, b) => {
-    console.log(a, b);
-    return a.name.localeCompare(b.name);
-  });
+  return skills.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 showPage(activePage);
